@@ -24,11 +24,20 @@ db.defaults({ users: [] }).write();
 
 let port = process.env.PORT || 3000;
 
+//data parser -used to parse post data 
+var bodyParser = require ("body-parser");
+app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.json());
+
 // return all users
 app.get('/data', function (req, res) {
     res.send(db.get('users').value());
 });
-
+//post route 
+app.post ('/test', function(req, res){
+    console.log(req.body.username, req.body.password);
+    res.send(req.body.username + " " + req.body.password)
+});
 // add user
 app.post('/add', function (req, res) {
     var user = {
